@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "869343988309",
+    "project_id": "gender-equality-app-4a93c",
+    "storage_bucket": "gender-equality-app-4a93c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869343988309:android:1e96fbfbec9055424b62dc",
+        "android_client_info": {
+          "package_name": "com.android.messenger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ3yE_2KgbfjehASGXLowWCUQG9-e9VQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
