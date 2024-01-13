@@ -10,9 +10,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.play.core.integrity.e
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var regis_password: EditText
     lateinit var regis_button: Button
     lateinit var regis_tv: TextView
-    lateinit var img_button:Button
+    lateinit var img_button:ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +65,10 @@ class MainActivity : AppCompatActivity() {
 
             SelectedPhotoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, SelectedPhotoUri)
-            val bitmapDrawable = BitmapDrawable(resources, bitmap)
-            img_button.background = bitmapDrawable
+            img_button.setImageBitmap(bitmap)
+//          the method down there also work in case of simple image view without adding any dependencies
+//            val bitmapDrawable = BitmapDrawable(resources, bitmap)
+//            img_button.background = bitmapDrawable
 
         }
     }
@@ -81,8 +85,25 @@ class MainActivity : AppCompatActivity() {
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d("MainActivity","file location $it")
                 }
+                saveUserToFBDataBase(it.toString())
             }
     }
+
+    private fun saveUserToFBDataBase(profileImageUrl:String) {
+        val uid =FirebaseAuth.getInstance().uid?:""
+       val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+       val user=User(uid,regis_username.text.toString(),profileImageUrl)
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("MainActivity","user saved successfully in firebase")
+                Toast.makeText(this,"user saved successfully in firebase",Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener{
+                Toast.makeText(this,"user NOT saved successfully in firebase",Toast.LENGTH_SHORT).show()
+                Log.e("MainActivity", "Failed to save user to Firebase:")
+            }
+    }
+    class User(val uid:String,val username:String,val profileImageUrl:String)
 
     private fun performRegister() {
         val email = regis_email.text.toString()
