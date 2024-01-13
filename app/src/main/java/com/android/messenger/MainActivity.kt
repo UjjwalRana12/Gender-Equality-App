@@ -1,14 +1,22 @@
 package com.android.messenger
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var regis_password: EditText
     lateinit var regis_button: Button
     lateinit var regis_tv: TextView
+    lateinit var img_button:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         regis_password = findViewById(R.id.regis_tv_pass)
         regis_button = findViewById(R.id.regis_button)
         regis_tv = findViewById(R.id.regis_tv)
+        img_button=findViewById(R.id.img_save_btn)
 
         regis_button.setOnClickListener {
            performRegister()
@@ -37,6 +47,41 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity2::class.java)
             startActivity(intent)
         }
+
+        img_button.setOnClickListener{
+            val intent=Intent(Intent.ACTION_PICK)
+            intent.type="image/*"
+            startActivityForResult(intent,0)
+        }
+
+    }
+    var SelectedPhotoUri:Uri?=null
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
+
+            SelectedPhotoUri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, SelectedPhotoUri)
+            val bitmapDrawable = BitmapDrawable(resources, bitmap)
+            img_button.background = bitmapDrawable
+
+        }
+    }
+
+
+    private fun uploadImageToFBStorage() {
+        if(SelectedPhotoUri==null) return
+        val filename=UUID.randomUUID().toString()
+       val ref= FirebaseStorage.getInstance().getReference("/images/$filename")
+        ref.putFile(SelectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("MainActivity","uccessfully uploaded imafe:${it.metadata?.path}")
+
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d("MainActivity","file location $it")
+                }
+            }
     }
 
     private fun performRegister() {
@@ -56,11 +101,11 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
                 if(!it.isSuccessful)return@addOnCompleteListener
+                uploadImageToFBStorage()
 
-                else{
-                    Log.d("MainActivity","successfully created with uid: ${it.result.user?.uid}")
-                    Toast.makeText(this,"successfully created with uid: ${it.result.user?.uid}",Toast.LENGTH_SHORT).show()
-                }
+                Log.d("MainActivity","successfully created with uid: ${it.result.user?.uid}")
+                Toast.makeText(this,"successfully created with uid: ${it.result.user?.uid}",Toast.LENGTH_SHORT).show()
+
             }
             .addOnFailureListener{
                 Log.d("MainActivity","failed to create user:${it.message}")
