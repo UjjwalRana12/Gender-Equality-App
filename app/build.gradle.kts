@@ -51,4 +51,12 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-database")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("com.github.lisawray.groupie:groupie:2.10.1")
+    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // For control over item selection of both touch and mouse driven selection
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    implementation ("com.github.lisawray.groupie:groupie-viewbinding:2.10.1")
+    implementation("com.xwray:groupie:2.0.3")
+    implementation("com.xwray:groupie-kotlin-android-extensions:2.0.3")
 }

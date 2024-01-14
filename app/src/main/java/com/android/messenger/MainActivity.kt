@@ -97,6 +97,11 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d("MainActivity","user saved successfully in firebase")
                 Toast.makeText(this,"user saved successfully in firebase",Toast.LENGTH_SHORT).show()
+
+                val intent =Intent(this,LatestMessageActivity::class.java)
+                // this line will start a new activity when all are clear
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             .addOnFailureListener{
                 Toast.makeText(this,"user NOT saved successfully in firebase",Toast.LENGTH_SHORT).show()

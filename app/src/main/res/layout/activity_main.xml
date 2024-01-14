@@ -69,6 +69,9 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_color="@color/yellow"
+        android:background="@color/yellow"
+        app:civ_border_width="4dp"
         android:id="@+id/img_save_btn"
         android:layout_width="150dp"
         android:layout_height="150dp"
