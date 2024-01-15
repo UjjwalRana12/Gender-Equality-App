@@ -1,14 +1,18 @@
 package com.android.messenger.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.android.messenger.ChatActivity
 import com.android.messenger.MainActivity
 import com.android.messenger.R
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 class MessageAdapter(val context:Context,private var currentUser: ArrayList<MainActivity.User>):RecyclerView.Adapter<MessageAdapter.MyViewHolder>() {
@@ -28,5 +32,13 @@ class MessageAdapter(val context:Context,private var currentUser: ArrayList<Main
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentUser=currentUser[position]
         holder.txt_name.text=currentUser.username
+
+        holder.itemView.setOnClickListener{
+            val intent= Intent(context,ChatActivity::class.java)
+
+            intent.putExtra("name", currentUser.username)
+            intent.putExtra("uid",currentUser.uid)
+            context.startActivity(intent)
+        }
     }
 }
