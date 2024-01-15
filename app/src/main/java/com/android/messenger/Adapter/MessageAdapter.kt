@@ -1,18 +1,19 @@
 package com.android.messenger.Adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.messenger.DataClass.Message
+import com.android.messenger.MainActivity
 import com.android.messenger.R
+import com.squareup.picasso.Picasso
 
-class MessageAdapter(private var chatlist:List<Message>):RecyclerView.Adapter<MessageAdapter.MyViewHolder>() {
+class MessageAdapter(val context:Context,private var currentUser: ArrayList<MainActivity.User>):RecyclerView.Adapter<MessageAdapter.MyViewHolder>() {
     inner class MyViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
-        val Row_Image:ImageView=itemView.findViewById(R.id.row_imageview)
-        val Row_Text:TextView=itemView.findViewById(R.id.row_textView)
+        val txt_name=itemView.findViewById<TextView>(R.id.row_textView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -21,14 +22,11 @@ class MessageAdapter(private var chatlist:List<Message>):RecyclerView.Adapter<Me
     }
 
     override fun getItemCount(): Int {
-        return chatlist.size
+        return currentUser.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val Chatlist=chatlist[position]
-        holder.apply {
-            Row_Text.text=Chatlist.Person
-            Row_Image.setImageResource(Chatlist.Image)
-        }
+        val currentUser=currentUser[position]
+        holder.txt_name.text=currentUser.username
     }
 }

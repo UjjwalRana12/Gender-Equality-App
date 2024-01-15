@@ -11,8 +11,9 @@ class LatestMessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_message)
-
+        supportActionBar?.show()
         VerifyUserIsLoggedIn()
+        
     }
 
     private fun VerifyUserIsLoggedIn() {

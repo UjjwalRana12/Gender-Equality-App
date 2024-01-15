@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MainActivity","file location $it")
                 }
                 saveUserToFBDataBase(it.toString())
+                //Toast.makeText(this,"DATA SAVE HONA TOH CHAIYE HO RHA H", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -93,6 +94,10 @@ class MainActivity : AppCompatActivity() {
         val uid =FirebaseAuth.getInstance().uid?:""
        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
        val user=User(uid,regis_username.text.toString(),profileImageUrl)
+
+        Toast.makeText(this,"DATA SAVE HO RHA H", Toast.LENGTH_SHORT).show()
+
+
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("MainActivity","user saved successfully in firebase")
@@ -108,7 +113,9 @@ class MainActivity : AppCompatActivity() {
                 Log.e("MainActivity", "Failed to save user to Firebase:")
             }
     }
-    class User(val uid:String,val username:String,val profileImageUrl:String)
+    class User(val uid:String,val username:String,val profileImageUrl:String){
+        constructor():this("","","")
+    }
 
     private fun performRegister() {
         val email = regis_email.text.toString()
@@ -129,6 +136,8 @@ class MainActivity : AppCompatActivity() {
                 if(!it.isSuccessful)return@addOnCompleteListener
                 uploadImageToFBStorage()
 
+                val intent=Intent(this,LatestMessageActivity::class.java)
+                 startActivity(intent)
                 Log.d("MainActivity","successfully created with uid: ${it.result.user?.uid}")
                 Toast.makeText(this,"successfully created with uid: ${it.result.user?.uid}",Toast.LENGTH_SHORT).show()
 

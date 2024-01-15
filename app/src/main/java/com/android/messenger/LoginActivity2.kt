@@ -1,5 +1,6 @@
 package com.android.messenger
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +53,8 @@ class LoginActivity2 : AppCompatActivity() {
 
                 else{
                     Log.d("Login","registraion successful")
+                    val intent= Intent(this,LatestMessageActivity::class.java)
+                    startActivity(intent)
                 }
             }
             .addOnFailureListener{
