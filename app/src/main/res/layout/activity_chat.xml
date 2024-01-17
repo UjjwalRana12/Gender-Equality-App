@@ -8,6 +8,7 @@
     tools:context=".ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/white"
         android:id="@+id/ChatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
         android:layout_alignParentTop="true" />
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/LinearLayout"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -28,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Type a message"
+            android:textColor="@color/black"
             android:background="@drawable/message_box_background"
             android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"

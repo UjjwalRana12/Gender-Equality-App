@@ -122,8 +122,14 @@ class MainActivity : AppCompatActivity() {
         val password = regis_password.text.toString()
         val username = regis_username.text.toString()
 
-        if(email.isEmpty()||password.isEmpty()) {
-            Toast.makeText(this,"Please enter your email address and password",Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "Please enter your email address and password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (SelectedPhotoUri == null) {
+            // Show a toast if no image is selected
+            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -131,20 +137,21 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "username is $username")
         Log.d("MainActivity", "email is $email")
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener{
-                if(!it.isSuccessful)return@addOnCompleteListener
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) return@addOnCompleteListener
+
                 uploadImageToFBStorage()
 
-                val intent=Intent(this,LatestMessageActivity::class.java)
-                 startActivity(intent)
-                Log.d("MainActivity","successfully created with uid: ${it.result.user?.uid}")
-                Toast.makeText(this,"successfully created with uid: ${it.result.user?.uid}",Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LatestMessageActivity::class.java)
+                startActivity(intent)
+                Log.d("MainActivity", "successfully created with uid: ${it.result.user?.uid}")
+                Toast.makeText(this, "successfully created with uid: ${it.result.user?.uid}", Toast.LENGTH_SHORT).show()
 
             }
-            .addOnFailureListener{
-                Log.d("MainActivity","failed to create user:${it.message}")
-
+            .addOnFailureListener {
+                Log.d("MainActivity", "failed to create user:${it.message}")
             }
     }
+
 }

@@ -24,6 +24,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var senderAdapter: SenderAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var mAuth: FirebaseAuth
+
 
     var receiverRoom:String?=null
     var senderRoom:String?=null
@@ -51,6 +53,7 @@ class ChatActivity : AppCompatActivity() {
 
         messageList=ArrayList()
         senderAdapter=SenderAdapter(this,messageList)
+        mAuth=FirebaseAuth.getInstance()
 
         chatRecyclerView.layoutManager=LinearLayoutManager(this)
         chatRecyclerView.adapter=senderAdapter
@@ -65,8 +68,11 @@ class ChatActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                   messageList.clear()
 
+
                     for(postSnapshot in snapshot.children){
                         val message = postSnapshot.getValue(Message::class.java)
+                        
+                        
                         messageList.add(message!!)
                     }
                     senderAdapter.notifyDataSetChanged()

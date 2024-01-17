@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#B12525</color>
     <color name="yellow">#FFEB3B</color>
+
+    <color name="tertiary">#5C5A5A</color>
 </resources>
