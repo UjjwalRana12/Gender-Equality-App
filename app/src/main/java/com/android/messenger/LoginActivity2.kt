@@ -1,5 +1,6 @@
 package com.android.messenger
 
+import LatestMessageFragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -53,7 +54,7 @@ class LoginActivity2 : AppCompatActivity() {
 
                 else{
                     Log.d("Login","registraion successful")
-                    val intent= Intent(this,LatestMessageActivity::class.java)
+                    val intent= Intent(this,HomePage::class.java)
                     startActivity(intent)
                 }
             }

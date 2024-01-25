@@ -1,5 +1,6 @@
 package com.android.messenger
 
+import LatestMessageFragment
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity","user saved successfully in firebase")
                 Toast.makeText(this,"user saved successfully in firebase",Toast.LENGTH_SHORT).show()
 
-                val intent =Intent(this,LatestMessageActivity::class.java)
+                val intent =Intent(this,HomePage::class.java)
                 // this line will start a new activity when all are clear
                 intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
                 uploadImageToFBStorage()
 
-                val intent = Intent(this, LatestMessageActivity::class.java)
+                val intent = Intent(this, HomePage::class.java)
                 startActivity(intent)
                 Log.d("MainActivity", "successfully created with uid: ${it.result.user?.uid}")
                 Toast.makeText(this, "successfully created with uid: ${it.result.user?.uid}", Toast.LENGTH_SHORT).show()
